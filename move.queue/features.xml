@@ -4,5 +4,6 @@
         <bundle>mvn:ru.mos.sm/move-queue/1.0.0</bundle>
         <feature>camel-cxf</feature>
         <feature>activemq-camel</feature>
+        <feature>camel-jetty9</feature>
     </feature>
 </features>

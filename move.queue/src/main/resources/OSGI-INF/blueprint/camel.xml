@@ -7,7 +7,38 @@
 
         <route id="move1">
             <from uri="activemq:queue1?disableReplyTo=true"/>
-            <to uri="activemq:queue2"/>
+
+            <onException>
+                <exception>java.lang.Exception</exception>
+                <handled><constant>true</constant></handled>
+                <setHeader headerName="Exception">
+                    <simple resultType="java.lang.String">${exchangeProperty.CamelExceptionCaught}</simple>
+                </setHeader>
+                <to uri="activemq:queue1.bk"/>
+            </onException>
+
+            <convertBodyTo type="java.lang.String"/>
+            <log message="Request: ${body}" loggingLevel="INFO"/>
+            <choice>
+                <when>
+                    <xpath>//test</xpath>
+                    <to uri="activemq:queue.test"/>
+                </when>
+                <otherwise>
+                    <to uri="activemq:queue.default"/>
+                </otherwise>
+            </choice>
+        </route>
+
+        <route id="rest1">
+            <from uri="jetty:http://0.0.0.0:8080/queue1"/>
+            <inOnly uri="activemq:queue1"/>
+            <setBody><constant></constant></setBody>
+        </route>
+
+        <route id="file1">
+            <from uri="file:/tmp/queue_in/?delete=true"/>
+            <inOnly uri="activemq:queue1"/>
         </route>
 
     </camelContext>

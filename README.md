@@ -14,8 +14,12 @@
 
 лог в .../servicemix/data/log/servicemix.log
 
-по умолчанию xml запрос из слушателя перекладывается в queue.default
- 
-пример тела для роутинга в queue.test:
+Хост для REST задается через параметр rest.hos
 
-    <test/>
+Файл забирается с FTP, доступ к которому настаивается через параметры ftp.url, ftp.user, ftp.password
+
+XSD для валидации задается через параметр validator.url, XSD для примера с валидацией move.queue/examples/test.xsd
+
+move.queue/examples/1.xml - xml, который проходит валидацию по xsd и xpath и уходит в queue.test
+move.queue/examples/2.xml - xml, который проходит валидацию по xsd, но не проходит по xpath и уходит в queue.default
+move.queue/examples/3.xml - xml, который не проходит валидацию по xsd, соответственно выбрасывается Exception, Exception обрабатывается в блоке <onException> и уходит в queue1.bk

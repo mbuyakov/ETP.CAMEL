@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
-                            http://camel.apache.org/schema/blueprint schema/blueprint/camel-cxf.xsd">
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+                            http://camel.apache.org/schema/blueprint  http://camel.apache.org/schema/spring/camel-blueprint.xsd">
 
     <camelContext id="move-queue-adapter" xmlns="http://camel.apache.org/schema/blueprint">
 
@@ -10,7 +10,10 @@
 
             <onException>
                 <exception>java.lang.Exception</exception>
-                <handled><constant>true</constant></handled>
+                <handled>
+                    <constant>true</constant>
+                </handled>
+                <log message="Exception"/>
                 <setHeader headerName="Exception">
                     <simple resultType="java.lang.String">${exchangeProperty.CamelExceptionCaught}</simple>
                 </setHeader>
@@ -19,25 +22,31 @@
 
             <convertBodyTo type="java.lang.String"/>
             <log message="Request: ${body}" loggingLevel="INFO"/>
+            <to uri="validator:{{validator.url}}"/>
             <choice>
                 <when>
-                    <xpath>//test</xpath>
+                    <xpath>//author</xpath>
+                    <log message="To test"/>
                     <to uri="activemq:queue.test"/>
                 </when>
                 <otherwise>
+                    <log message="Otherwise"/>
                     <to uri="activemq:queue.default"/>
                 </otherwise>
             </choice>
+
         </route>
 
         <route id="rest1">
-            <from uri="jetty:http://0.0.0.0:8080/queue1"/>
+            <from uri="jetty:{{rest.host}}"/>
             <inOnly uri="activemq:queue1"/>
-            <setBody><constant></constant></setBody>
+            <setBody>
+                <constant></constant>
+            </setBody>
         </route>
 
         <route id="file1">
-            <from uri="file:/tmp/queue_in/?delete=true"/>
+            <from uri="ftp://{{ftp.user}}@{{ftp.url}}?password={{ftp.user}}&amp;delete=true&amp;passiveMode=true&amp;throwExceptionOnConnectFailed=true&amp;binary=true"/>
             <inOnly uri="activemq:queue1"/>
         </route>
 

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<x:flowers xmlns:x="urn:flowers">
+   <flower id="flower1">
+      <name>Romashka</name>
+      <colour>White</colour>
+   </flower>
+</x:flowers>

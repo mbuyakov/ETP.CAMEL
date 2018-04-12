@@ -5,5 +5,7 @@
         <feature>camel-cxf</feature>
         <feature>activemq-camel</feature>
         <feature>camel-jetty9</feature>
+        <feature>camel-ftp</feature>
+        <feature>camel-spring</feature>
     </feature>
 </features>

@@ -13,6 +13,7 @@
 			<cm:property name="ftp.user" value="user"/>
 			<cm:property name="ftp.password" value="user"/>
 			<cm:property name="validator.url" value="file:///C:\\Gitn\\in\\test.xsd"/>
+			<cm:property name="file.url" value="/tmp/queue_in/"/>
 		</cm:default-properties>
 	</cm:property-placeholder>
 </blueprint>

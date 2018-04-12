@@ -45,8 +45,13 @@
             </setBody>
         </route>
 
-        <route id="file1">
+        <route id="ftp1">
             <from uri="ftp://{{ftp.user}}@{{ftp.url}}?password={{ftp.user}}&amp;delete=true&amp;passiveMode=true&amp;throwExceptionOnConnectFailed=true&amp;binary=true"/>
+            <inOnly uri="activemq:queue1"/>
+        </route>
+
+        <route id="file1">
+            <from uri="file:{{file.url}}?delete=true"/>
             <inOnly uri="activemq:queue1"/>
         </route>
 

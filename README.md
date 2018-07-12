@@ -1,5 +1,5 @@
-# ETP.MSR
-Интеграционная шина МСР
+# ETP.CAMEL
+Примеры работы с Camel
 
 
     cd move-queue
